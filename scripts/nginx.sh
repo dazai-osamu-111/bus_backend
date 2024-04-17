@@ -22,9 +22,6 @@ sudo rm -f /etc/nginx/sites-enabled/default || { echo "Failed to remove default 
 echo "Copying nginx configuration file"
 sudo cp /home/ubuntu/bus_backend/nginx/nginx.conf /etc/nginx/sites-available/nginx.conf || { echo "Failed to copy nginx.conf"; exit 1; }
 
-echo "Creating symbolic link for nginx configuration"
-sudo ln -s /etc/nginx/sites-available/nginx.conf /etc/nginx/sites-enabled/nginx.conf || { echo "Failed to create symlink"; exit 1; }
-
 echo "Testing nginx configuration and restarting nginx"
 sudo nginx -t && sudo systemctl restart nginx || { echo "Failed to test or restart nginx"; exit 1; }
 
