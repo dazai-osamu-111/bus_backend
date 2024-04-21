@@ -15,7 +15,6 @@ phases:
   build: 
     commands: 
       - echo Building the application 
-      - python manage.py runserver 
   post_build: 
     commands: 
       - echo Build completed on `date`
