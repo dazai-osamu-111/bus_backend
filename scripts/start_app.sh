@@ -1,6 +1,6 @@
 #!/usr/bin/bash 
 
-sed -i 's/\[]/\["47.129.32.192"]/' /home/ubuntu/bus_backend/bus_management/settings.py
+sed -i 's/\[]/\["52.77.224.108"]/' /home/ubuntu/bus_backend/bus_management/settings.py
 
 # python manage.py migrate 
 # python manage.py makemigrations     
