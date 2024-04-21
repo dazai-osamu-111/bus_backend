@@ -24,13 +24,13 @@ echo "[$(date)] Changing directory to /home/ubuntu/bus_backend/"
 cd /home/ubuntu/bus_backend/
 
 echo "[$(date)] Activating virtual environment..."
-python3 -m venv venv
+# python -m venv venv
 source venv/bin/activate
 
 echo "[$(date)] Installing requirements from requirements.txt..."
 pip install -r /home/ubuntu/bus_backend/requirements.txt
 
 echo "[$(date)] Starting server in detached screen..."
-screen -d -m python3 manage.py runserver 0:8000
+screen -d -m python manage.py runserver 0:8000
 
 echo "[$(date)] Deployment script finished."
