@@ -28,7 +28,7 @@ echo "[$(date)] Activating virtual environment..."
 source venv/bin/activate
 
 echo "[$(date)] Installing requirements from requirements.txt..."
-pip install -r /home/ubuntu/bus_backend/requirements.txt
+# pip install -r /home/ubuntu/bus_backend/requirements.txt
 
 echo "[$(date)] Starting server in detached screen..."
 screen -d -m python manage.py runserver 0:8000
