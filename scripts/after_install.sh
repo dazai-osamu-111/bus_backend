@@ -20,7 +20,7 @@
 # screen -d -m python3 manage.py runserver 0:8000
 
 
-echo "[$(date)] Changing directory to /home/ubuntu/bus_backend/" | tee -a $LOG_FILE
+echo "[$(date)] Changing directory to /home/ubuntu/bus_backend/"
 cd /home/ubuntu/bus_backend/
 
 echo "[$(date)] Activating virtual environment..." | tee -a $LOG_FILE
