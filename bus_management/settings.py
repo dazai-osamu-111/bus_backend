@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -70,6 +71,12 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'bus_management.wsgi.application'
 
+NAME = os.getenv('DB_NAME') or 'busrouting'
+USER = os.getenv('DB_USER') or 'root'
+PASSWORD = os.getenv('DB_PASSWORD') or 'uxg'
+HOST = os.getenv('DB_HOST') or 'localhost'
+PORT = os.getenv('DB_PORT') or '3306'
+
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
@@ -77,11 +84,11 @@ WSGI_APPLICATION = 'bus_management.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'busrouting',
-        'USER': 'root',
-        'PASSWORD': 'uxg',
-        'HOST': 'localhost',   # Or an IP Address that your DB is hosted on
-        'PORT': '3306',
+        'NAME': NAME,
+        'USER': USER,
+        'PASSWORD': PASSWORD,
+        'HOST': HOST,   # Or an IP Address that your DB is hosted on
+        'PORT': PORT,
     }
 }
 
