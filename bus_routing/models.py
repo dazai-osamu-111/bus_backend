@@ -1,16 +1,18 @@
+from email.policy import default
+from enum import auto
+from turtle import speed
 from django.db import models
+
+import bus_routing
 
 # create bus station model
 class BusStation(models.Model):
+    bus_station_id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=255)
-    bus_number = models.CharField(max_length=255)
     latitude = models.FloatField(null=True, blank=True)
     longitude = models.FloatField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-
-    def __str__(self):
-        return self.name
 
 class Deposit(models.Model):
     user_id = models.CharField(max_length=255)
@@ -28,17 +30,31 @@ class User(models.Model):
     phone = models.CharField(max_length=255)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-
-    def __str__(self):
-        return self.username
     
+
+
 class Bus(models.Model):
     bus_id = models.AutoField(primary_key=True)
     bus_number = models.CharField(max_length=255)
     driver_name = models.CharField(max_length=255) # bien so xe
-    passenger_amount = models.IntegerField()
+    current_passenger_amount = models.IntegerField(default=0)
+    max_passenger_amount = models.IntegerField(default=20)
+    speed = models.FloatField(default=20)
+    current_position = models.CharField(max_length=255, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    def __str__(self):
-        return self.bus_number
+class BusRouting(models.Model):
+    bus_id = models.ForeignKey(Bus, on_delete=models.CASCADE)
+    bus_station = models.ForeignKey(BusStation, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    
+class OnBusData(models.Model):
+    bus_id = models.IntegerField()
+    user_id = models.IntegerField()
+    start_bus_station_id = models.IntegerField()
+    end_bus_station_id = models.IntegerField()
+    updated_at = models.DateTimeField(auto_now=True)
+
+

@@ -38,3 +38,21 @@ class DepositView(views.APIView):
             return Response(status=200, data = serializer.data)
         except:
             return Response({"status" : 400, 'message': 'Deposit not found'})
+        
+class BuyTicketView(views.APIView):
+    def post(self, request):
+        data = request.data
+        user_id = data.get('user_id')
+        price = data.get('price')
+        if not user_id or not price:
+            return Response({"status" : 400, 'message': 'User_id and amount are required'})
+        try:
+            deposit = Deposit.objects.get(user_id=user_id)
+            if deposit.amount >= price:
+                deposit.amount -= price
+                deposit.save()
+                return Response({"status" : 200, 'message': 'Buy ticket successfully'})
+            else:
+                return Response({"status" : 400, 'message': 'amount not enough'})
+        except: 
+            return Response({"status" : 400, 'message': 'Deposit not found'})
