@@ -1,9 +1,4 @@
-from email.policy import default
-from enum import auto
-from turtle import speed
 from django.db import models
-
-import bus_routing
 
 # create bus station model
 class BusStation(models.Model):
