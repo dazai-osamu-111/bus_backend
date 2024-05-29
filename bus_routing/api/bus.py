@@ -74,3 +74,18 @@ class BusView(views.APIView):
                 return Response({"status" : 200, 'message': 'Add bus successfully'})
             else:
                 return Response({"status" : 400, 'message': 'Add bus failed'})
+            
+class GetBusIdView(views.APIView):
+    def get(self, request):
+        bus_number = request.query_params.get('bus_number')
+        driver_name = request.query_params.get('driver_name')
+        if not bus_number or not driver_name:
+            return Response({"status" : 400, 'message': 'param bus_number, driver_name are required'})
+        try:
+            bus = Bus.objects.get(bus_number=bus_number, driver_name=driver_name)
+            return Response({
+                'bus_id': bus.bus_id,
+                'status': 200,
+            })
+        except:
+            return Response({"status" : 400, 'message': 'Bus not found'})

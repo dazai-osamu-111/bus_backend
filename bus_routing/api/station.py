@@ -66,3 +66,15 @@ class BusStationView(views.APIView):
                 return Response({"status" : 200, 'message': 'add bus station successfully'})
             else:
                 return Response({"status" : 400, 'message': 'addd bus station failed'})
+            
+
+class GetBusStationIdView(views.APIView):
+    def get(self, request):
+        name = request.query_params.get('name')
+        if not name:
+            return Response({"status" : 400, 'message': 'param name is required'})
+        try:
+            bus_station = BusStation.objects.get(name=name)
+            return Response({"status" : 200, 'bus_station_id': bus_station.bus_station_id})
+        except:
+            return Response({"status" : 400, 'message': 'bus station not found'})
