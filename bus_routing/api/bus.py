@@ -60,6 +60,9 @@ class BusView(views.APIView):
         driver_name = data.get('driver_name')
         if not bus_number or not driver_name:
             return Response({"status" : 400, 'message': 'bus_number'})
+        current_bus_number_amount = len(list(Bus.objects.filter(bus_number=bus_number)))
+        if current_bus_number_amount > 5:
+            return Response({"status" : 400, 'message': 'bus_number amount is over quota'})
         try:
             bus = Bus.objects.get(bus_number=bus_number, driver_name=driver_name)
             return Response({"status" : 400, 'message': 'Bus is existed'})
