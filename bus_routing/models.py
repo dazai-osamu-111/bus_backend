@@ -52,4 +52,14 @@ class OnBusData(models.Model):
     end_bus_station_id = models.IntegerField()
     updated_at = models.DateTimeField(auto_now=True)
 
+class Ticket(models.Model):
+    ticket_id = models.AutoField(primary_key=True)
+    user_id = models.IntegerField()
+    bus_number = models.CharField(max_length=255)
+    status = models.IntegerField() # 0: chua su dung, 1: da su dung, 2: đã hủy
+    price = models.FloatField()
+    valid_to = models.DateTimeField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
 

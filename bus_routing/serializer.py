@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from bus_routing.models import Bus, BusRouting, BusStation, Deposit, OnBusData
+from bus_routing.models import Bus, BusRouting, BusStation, Deposit, OnBusData, Ticket
 
 
 class DepositSerializer(serializers.ModelSerializer):
@@ -27,3 +27,8 @@ class BusRoutingSerializer(serializers.ModelSerializer):
     class Meta:
         model = BusRouting
         fields = ('bus_number', 'bus_station')
+
+class TicketSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Ticket
+        fields = ('user_id', 'bus_number', 'status', 'price', 'valid_to')   
