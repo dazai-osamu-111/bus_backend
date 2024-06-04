@@ -1,4 +1,3 @@
-sửa code sau:
 from django.http import JsonResponse
 from django.db.models import Count
 from django.db.models.functions import TruncHour, TruncDay, TruncWeek, TruncMonth
@@ -81,4 +80,3 @@ class PassengerDataView(views.APIView):
             formatted_result[route_id][bus_id][period] = count
 
         return JsonResponse(formatted_result)
-hiện tại dữ liệu lượng hành khách theo giờ, ngày, tuần, tháng chưa dúng. Với giờ thì lấy unit=1h, ngày thì unit=1ngày, tuần, tháng tương tự. việc lọc dữ liệu cần thực hiện đếm tổng số hành khách trong 1 đơn vị unit kia. Ví dụ với dữ liệu hành khách lúc 9h thì tính tổng lượng hành khác từ 8h-9h, với dữ liệu hành khác của 

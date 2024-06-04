@@ -5,9 +5,10 @@ from django.urls import path
 from bus_routing.api.bus import BusView, GetBusIdView
 from bus_routing.api.hello import BusStationHelloView
 from bus_routing.api.mail import RequestOTPView, VerifyOTPView
+from bus_routing.api.passenger import PassengerDataView
 from bus_routing.api.payment import BuyTicketView, DepositView
 from bus_routing.api.station import BusStationView, GetBusStationIdView, GetOffBusView, GetOnBusView
-from bus_routing.api.ticket import CheckTicketView
+from bus_routing.api.ticket import CheckTicketView, GetUserTicket
 from bus_routing.api.users import UserDetailView
 
 urlpatterns = [
@@ -23,9 +24,11 @@ urlpatterns = [
     path('save_ticket_information', BuyTicketView.as_view()),
     path('update_ticket_information', BuyTicketView.as_view()),
     path('check_ticket', CheckTicketView.as_view()),
-     path('request-otp', RequestOTPView.as_view(), name='request_otp'),
+    path('request-otp', RequestOTPView.as_view(), name='request_otp'),
     path('verify-otp', VerifyOTPView.as_view(), name='verify_otp'),
-    path('user/', UserDetailView.as_view(), name='user-detail'),
+    path('user', UserDetailView.as_view(), name='user-detail'),
+    path('user_tickets', GetUserTicket.as_view(), name='user-tickets'),
+    path('get_passenger_data/<str:period>/<str:interval>/', PassengerDataView.as_view()),
 ]
 
 

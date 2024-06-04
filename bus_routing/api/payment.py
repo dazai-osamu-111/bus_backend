@@ -80,14 +80,16 @@ class BuyTicketView(views.APIView):
     def put(self, request):
         data = request.data
         ticket_id = data.get('ticket_id')
-        status = data.get('status')
+        status = data.get('status', None)
+        bus_id = data.get('bus_id', None)
         if status not in [0, 1, 2]:
             return Response({"status" : 400, 'message': 'status must be in [0, 1, 2]'})
-        if not ticket_id or not status:
+        if not ticket_id or status is None:
             return Response({"status" : 400, 'message': 'ticket_id, status are required'})
         try:
             ticket = Ticket.objects.get(ticket_id=ticket_id)
             ticket.status = status
+            ticket.bus_id = bus_id
             ticket.save()
             if status == 2:
                 deposit = Deposit.objects.get(user_id=ticket.user_id)

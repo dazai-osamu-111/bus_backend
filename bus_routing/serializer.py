@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from bus_routing.models import Bus, BusRouting, BusStation, Deposit, OnBusData, Ticket
+from bus_routing.models import Bus, BusRouting, BusStation, Deposit, MovementHistory, OnBusData, Ticket
 from django.contrib.auth.models import User
 
 
@@ -16,7 +16,7 @@ class BusSerializer(serializers.ModelSerializer):
 class OnBusDataSerializer(serializers.ModelSerializer):
     class Meta:
         model = OnBusData
-        fields = ('bus_id', 'user_id', 'end_bus_station_id', 'start_bus_station_id')
+        fields = ('ticket_id', 'end_bus_station_id', 'start_bus_station_id')
 
 class BusStationSerializer(serializers.ModelSerializer):
     class Meta:
@@ -32,7 +32,7 @@ class BusRoutingSerializer(serializers.ModelSerializer):
 class TicketSerializer(serializers.ModelSerializer):
     class Meta:
         model = Ticket
-        fields = ('user_id', 'bus_number', 'status', 'price', 'valid_to')   
+        fields = ('ticket_id', 'user_id', 'bus_number', 'status', 'price', 'valid_to', 'bus_id')   
 
 class EmailSerializer(serializers.Serializer):
     email = serializers.EmailField()
@@ -43,3 +43,8 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['id', 'username', 'email', 'first_name', 'last_name']
+
+class MovementHistorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = MovementHistory
+        fields = ('ticket_id','bus_id', 'user_id', 'on_bus_at', 'off_bus_at')
