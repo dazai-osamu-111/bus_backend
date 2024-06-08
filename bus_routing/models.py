@@ -56,9 +56,17 @@ class Ticket(models.Model):
     user_id = models.IntegerField()
     bus_number = models.CharField(max_length=255)
     bus_id = models.IntegerField(null=True)
-    status = models.IntegerField() # 0: chua su dung, 1: da su dung, 2: đã hủy
+    status = models.IntegerField() # 0: chua su dung, 1: dang su dung, 3: đã su dung, 4 da het han
     price = models.FloatField()
     valid_to = models.DateTimeField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+class TicketStation(models.Model):
+    ticket_id = models.IntegerField()
+    bus_number = models.CharField(max_length=255)
+    on_bus_station_id = models.IntegerField()
+    off_bus_station_id = models.IntegerField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
