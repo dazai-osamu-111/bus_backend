@@ -92,3 +92,38 @@ class GetBusIdView(views.APIView):
             })
         except:
             return Response({"status" : 400, 'message': 'Bus not found'})
+
+class GetBusInfomationByBusNumberView(views.APIView):
+    def get(self, request):
+        bus_number = request.query_params.get('bus_number')
+        if not bus_number:
+            return Response({"status" : 400, 'message': 'param bus_number is required'})
+        bus_data = Bus.objects.filter(bus_number__contains=bus_number)
+        if not bus_data:
+            return Response({"status" : 400, 'message': 'Bus not found'})
+        result = []
+        for bus in bus_data:
+            result.append({
+                'bus_id': bus.bus_id,
+                'bus_number': bus.bus_number,
+                'driver_name': bus.driver_name,
+                'speed': bus.speed,
+                'current_position': bus.current_position,
+                'current_passenger_amount': bus.current_passenger_amount,
+                'max_passenger_amount': bus.max_passenger_amount,
+            })
+        return Response({ 'status': 200, 'data': result })
+    
+class GetBusNumberView(views.APIView):
+    def get(self, request):
+        bus_number = request.query_params.get('bus_number')
+        if not bus_number:
+            return Response({"status": 400, 'message': 'param bus_number is required'})
+
+        bus_numbers = Bus.objects.filter(bus_number__contains=bus_number).values_list('bus_number', flat=True).distinct()
+        if not bus_numbers:
+            return Response({"status": 400, 'message': 'Bus not found'})
+
+        result = [{'bus_number': bus_num} for bus_num in bus_numbers]
+        
+        return Response({'status': 200, 'data': result})

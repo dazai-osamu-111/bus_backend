@@ -4,6 +4,7 @@ from django.db import models
 class BusStation(models.Model):
     bus_station_id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=255)
+    bus_number = models.CharField(max_length=255, null=True, blank=True)
     latitude = models.FloatField(null=True, blank=True)
     longitude = models.FloatField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -40,8 +41,8 @@ class Bus(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
 class BusRouting(models.Model):
-    bus_id = models.ForeignKey(Bus, on_delete=models.CASCADE)
-    bus_station = models.ForeignKey(BusStation, on_delete=models.CASCADE)
+    bus_number = models.CharField(max_length=255, null=True, blank=True)
+    bus_station_id = models.IntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     

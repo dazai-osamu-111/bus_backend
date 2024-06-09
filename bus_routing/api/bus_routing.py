@@ -8,12 +8,12 @@ from bus_routing.serializer import BusRoutingSerializer
 
 class BusRoutingView(views.APIView):
     def post(self, request):
-        bus_id = request.data.get('bus_id')
-        bus_station_id = request.data.get('bus_station_id')
+        bus_number = request.data.get('bus_number')
+        bus_station_id = request.data.get('bus_station_number')
 
         try:
             bus_route = BusRouting.objects.get(
-                bus_id=bus_id,
+                bus_id=bus_number,
                 bus_station_id=bus_station_id
             )
             return Response({
@@ -21,7 +21,7 @@ class BusRoutingView(views.APIView):
             }, status=400)
         except:
             data = {
-                'bus_id': bus_id,
+                'bus_number': bus_number,
                 'bus_station_id': bus_station_id
             }
             serializer = BusRoutingSerializer(data=data)
