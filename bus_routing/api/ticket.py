@@ -10,7 +10,7 @@ from bus_routing.serializer import TicketSerializer
 
 class CheckTicketView(APIView):
 
-    def get(self, request):
+    def post(self, request):
         ticket_id = request.data.get('ticket_id')
         if not ticket_id:
             return Response({'status': 400, 'message': 'ticket_id is required'}, status=status.HTTP_400_BAD_REQUEST)
