@@ -2,7 +2,7 @@
 from django.contrib import admin
 from django.urls import path
 
-from bus_routing.api.bus import BusView, GetBusIdView, GetBusInfomationByBusNumberView, GetBusNumberView
+from bus_routing.api.bus import BusView, GetBusIdView, GetBusInfomationByBusNumberView, GetBusInfomationByIdView, GetBusNumberView
 from bus_routing.api.hello import BusStationHelloView
 from bus_routing.api.mail import RequestOTPView, VerifyOTPView
 from bus_routing.api.passenger import PassengerDataView
@@ -23,6 +23,8 @@ urlpatterns = [
 
     path('add_bus_information', BusView.as_view()),
     path('get_bus_id', GetBusIdView.as_view()),
+    path('get_bus_information_by_id', GetBusInfomationByIdView.as_view()),
+
     path('get_station_id', GetBusStationIdView.as_view()),
     path('save_ticket_information', BuyTicketView.as_view()),
     path('update_ticket_information', BuyTicketView.as_view()),

@@ -113,6 +113,25 @@ class GetBusInfomationByBusNumberView(views.APIView):
                 'max_passenger_amount': bus.max_passenger_amount,
             })
         return Response({ 'status': 200, 'data': result })
+
+class GetBusInfomationByIdView(views.APIView):
+    def get(self, request):
+        bus_id = request.query_params.get('bus_id')
+        if not bus_id:
+            return Response({"status" : 400, 'message': 'param bus_id is required'})
+        try:
+            bus = Bus.objects.get(bus_id=bus_id)
+            return Response({
+                'bus_number': bus.bus_number,
+                'driver_name': bus.driver_name,
+                'speed': bus.speed,
+                'current_position': bus.current_position,
+                'current_passenger_amount': bus.current_passenger_amount,
+                'max_passenger_amount': bus.max_passenger_amount,
+                'status': 200,
+            })
+        except:
+            return Response({"status" : 400, 'message': 'Bus not found'})
     
 class GetBusNumberView(views.APIView):
     def get(self, request):
