@@ -13,58 +13,60 @@ class GetOnBusView(views.APIView):
     def post(self, request):
         ticket_id = request.data.get('ticket_id')
         bus_id = request.data.get('bus_id')
-        try:
-            on_bus_data = OnBusData.objects.get(ticket_id=ticket_id)
+        on_bus_data = OnBusData.objects.filter(ticket_id=ticket_id).first()
+        if on_bus_data:
             return Response(status=400,data= {"status" : 400, 'message': 'this user is on bus'})
-        except:
-            ticket = Ticket.objects.get(ticket_id=ticket_id)
-            ticket.bus_id = bus_id
-            ticket.save()
-            bus = Bus.objects.get(bus_id=bus_id)
-            bus.current_passenger_amount += 1
-            bus.save()
+        ticket = Ticket.objects.filter(ticket_id=ticket_id).first()
+        if not ticket:
+            return Response(status=400,data= {"status" : 400, 'message': 'this ticket is not valid'})
+        ticket.bus_id = bus_id
+        ticket.save()
+        bus = Bus.objects.get(bus_id=bus_id)
+        bus.current_passenger_amount += 1
+        bus.save()
 
-            bus_number = bus.bus_number
-            ticket_station = TicketStation.objects.filter(ticket_id=ticket_id, bus_number=bus_number).first()
-            if not ticket_station:
-                return Response(status=400,data= {"status" : 400, 'message': 'this ticket is not valid'})
-            start_bus_station_id = ticket_station.on_bus_station_id
-            end_bus_station_id = ticket_station.off_bus_station_id
+        bus_number = bus.bus_number
+        ticket_station = TicketStation.objects.filter(ticket_id=ticket_id, bus_number=bus_number).first()
+        if not ticket_station:
+            return Response(status=400,data= {"status" : 400, 'message': 'this ticket is not valid'})
+        start_bus_station_id = ticket_station.on_bus_station_id
+        end_bus_station_id = ticket_station.off_bus_station_id
 
 
-            data = {
-                'ticket_id': ticket_id,
-                'end_bus_station_id': end_bus_station_id,
-                'start_bus_station_id': start_bus_station_id
-            }
-            movement_history_data = {
-                'ticket_id': ticket_id,
-                'bus_id': Ticket.objects.get(ticket_id=ticket_id).bus_id,
-                'user_id': Ticket.objects.get(ticket_id=ticket_id).user_id,
-                'on_bus_at': datetime.datetime.now()
-            }
-            serializer = OnBusDataSerializer(data=data)
-            if serializer.is_valid():
-                serializer.save()
-                
-                movement_history = MovementHistory.objects.filter(ticket_id=ticket_id, bus_id=bus_id)
-                if not movement_history:
-                    movement_history_serializer = MovementHistorySerializer(data=movement_history_data)
-                    if movement_history_serializer.is_valid():
-                        movement_history_serializer.save()
-                    else:
-                        print(movement_history_serializer.errors)
-                        return Response(status=400,data= {"status" : 400, 'message': 'Get on bus failed'})
-                
-                return Response(status=200,data= {"status" : 200, 'message': 'Get on bus successfully'})
-            else:
-                print(serializer.errors)
-                return Response(status=400,data= {"status" : 400, 'message': 'Get on bus failed'})
+        data = {
+            'ticket_id': ticket_id,
+            'end_bus_station_id': end_bus_station_id,
+            'start_bus_station_id': start_bus_station_id
+        }
+        movement_history_data = {
+            'ticket_id': ticket_id,
+            'bus_id': Ticket.objects.get(ticket_id=ticket_id).bus_id,
+            'user_id': Ticket.objects.get(ticket_id=ticket_id).user_id,
+            'on_bus_at': datetime.datetime.now()
+        }
+        serializer = OnBusDataSerializer(data=data)
+        if serializer.is_valid():
+            serializer.save()
             
+            movement_history = MovementHistory.objects.filter(ticket_id=ticket_id, bus_id=bus_id)
+            if not movement_history:
+                movement_history_serializer = MovementHistorySerializer(data=movement_history_data)
+                if movement_history_serializer.is_valid():
+                    movement_history_serializer.save()
+                else:
+                    print(movement_history_serializer.errors)
+                    return Response(status=400,data= {"status" : 400, 'message': 'Get on bus failed'})
+            
+            return Response(status=200,data= {"status" : 200, 'message': 'Get on bus successfully'})
+        else:
+            print(serializer.errors)
+            return Response(status=400,data= {"status" : 400, 'message': 'Get on bus failed'})
+        
 class GetOffBusView(views.APIView):
     def post(self, request):
         bus_station_id = request.data.get('bus_station_id')
         bus_id = request.data.get('bus_id')
+        count = 0
         if not bus_station_id or not bus_id:
             return Response(status=400,data= {"status" : 400, 'message': 'bus_station_id, bus_id is required'})
         try:
@@ -72,25 +74,35 @@ class GetOffBusView(views.APIView):
             if not ticket_list:
                 return Response(status=400,data= {"status" : 400, 'message': 'this bus is empty'})
             ticket_list = list(ticket_list)
+            bus_number = Bus.objects.filter(bus_id=bus_id).first().bus_number
+            if not bus_number:
+                return Response(status=400,data= {"status" : 400, 'message': 'bus number not found'})
             for ticket in ticket_list:
                 ticket_id = ticket.ticket_id
-                on_bus_data = OnBusData.objects.get(ticket_id=ticket_id)
-                on_bus_data.delete()
-                bus_id = Ticket.objects.get(ticket_id=ticket_id).bus_id
-                bus = Bus.objects.get(bus_id=bus_id)
-                bus.current_passenger_amount -= 1
-                bus.save()
-                last_ticket_station = TicketStation.objects.filter(ticket_id=ticket_id).last()
-                if last_ticket_station:
-                    last_ticket_station_id = last_ticket_station.off_bus_station_id
-                    if last_ticket_station_id == bus_station_id:
-                        ticket = Ticket.objects.get(ticket_id=ticket_id)
-                        ticket.status = 1
-                        ticket.save()
-                movement_history = MovementHistory.objects.filter(ticket_id=ticket_id, bus_id=bus_id).first()
-                movement_history.off_bus_at = datetime.datetime.now()
-                movement_history.save()
-            return Response(status=200,data= {"status" : 200, 'message': 'Get off bus successfully'})
+                off_bus_station_id = TicketStation.objects.filter(ticket_id=ticket_id, bus_number=bus_number).last().off_bus_station_id
+                if off_bus_station_id:
+                    if off_bus_station_id == bus_station_id:
+                        on_bus_data = OnBusData.objects.get(ticket_id=ticket_id)
+                        on_bus_data.delete()
+                        bus_id = Ticket.objects.get(ticket_id=ticket_id).bus_id
+                        bus = Bus.objects.get(bus_id=bus_id)
+                        bus.current_passenger_amount -= 1
+                        bus.save()
+                        last_ticket_station = TicketStation.objects.filter(ticket_id=ticket_id).last()
+                        if last_ticket_station:
+                            last_ticket_station_id = last_ticket_station.off_bus_station_id
+                            if last_ticket_station_id == bus_station_id:
+                                ticket = Ticket.objects.get(ticket_id=ticket_id)
+                                ticket.status = 1
+                                ticket.save()
+                        movement_history = MovementHistory.objects.filter(ticket_id=ticket_id, bus_id=bus_id).first()
+                        movement_history.off_bus_at = datetime.datetime.now()
+                        movement_history.save()
+                        count+=1
+            if count == 0:
+                return Response(status=400,data= {"status" : 400, 'message': 'get of 0 passenser'})
+            else:
+                return Response(status=200,data= {"status" : 200, 'message': 'Get off bus successfully'})
         except:  
             return Response(status=400,data= {"status" : 400, 'message': 'this user is not on bus'})
 class BusStationView(views.APIView):
