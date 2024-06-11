@@ -18,10 +18,11 @@ urlpatterns = [
     path('get_on_bus', GetOnBusView.as_view()),
     path('get_off_bus', GetOffBusView.as_view()),
 
-    path('add_bus_station', BusStationView.as_view()),
+    # path('add_bus_station', BusStationView.as_view()),
     path('get_station_by_bus_number', GetStationByBusNumber.as_view()),
+    path('get_all_bus_station', BusStationView.as_view()),
 
-    path('add_bus_information', BusView.as_view()),
+    # path('add_bus_information', BusView.as_view()),
     path('get_bus_id', GetBusIdView.as_view()),
     path('get_bus_information_by_id', GetBusInfomationByIdView.as_view()),
 

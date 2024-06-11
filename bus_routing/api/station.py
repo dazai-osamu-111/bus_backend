@@ -132,6 +132,11 @@ class BusStationView(views.APIView):
             else:
                 return Response({"status" : 400, 'message': 'addd bus station failed'})
             
+    def get(self, request):
+        bus_station = BusStation.objects.all()
+        serializer = BusStationSerializer(bus_station, many=True)
+        return Response({"status" : 200, 'data': serializer.data})
+            
 
 class GetBusStationIdView(views.APIView):
     def get(self, request):
