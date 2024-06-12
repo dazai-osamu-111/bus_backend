@@ -21,7 +21,7 @@ class OnBusDataSerializer(serializers.ModelSerializer):
 class BusStationSerializer(serializers.ModelSerializer):
     class Meta:
         model = BusStation
-        fields = ('bus_station_id', 'name', 'latitude', 'longitude', 'bus_number')
+        fields = ('bus_station_id', 'name', 'latitude', 'longitude','direction', 'bus_number')
 
 
 class BusRoutingSerializer(serializers.ModelSerializer):
