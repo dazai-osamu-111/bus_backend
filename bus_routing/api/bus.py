@@ -28,7 +28,8 @@ class BusView(views.APIView):
         bus_number = data.get('bus_number')
         driver_name = data.get('driver_name')
         speed = data.get('speed', 20)
-        current_position = data.get('current_position', None)
+        current_longitude = data.get('current_longitude', None)
+        current_latitude = data.get('current_latitude', None)
 
         if not bus_number or not driver_name or not speed:
             return Response({"status" : 400, 'message': 'bus_number, driver_name, speed are required'})
@@ -44,7 +45,8 @@ class BusView(views.APIView):
                 'driver_name': driver_name,
                 'speed': speed,
                 'current_passenger_amount': current_passenger_amount,
-                'current_position': current_position if current_position else '',
+                'current_longitude': current_longitude,
+                'current_latitude': current_latitude,
             }
             serializer = BusSerializer(bus,data=data)
             if serializer.is_valid():

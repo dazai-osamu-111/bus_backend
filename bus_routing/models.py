@@ -37,7 +37,8 @@ class Bus(models.Model):
     current_passenger_amount = models.IntegerField(default=0)
     max_passenger_amount = models.IntegerField(default=20)
     speed = models.FloatField(default=20)
-    current_position = models.CharField(max_length=255, null=True, blank=True)
+    current_longitude = models.FloatField(null=True, blank=True)
+    current_latitude = models.FloatField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

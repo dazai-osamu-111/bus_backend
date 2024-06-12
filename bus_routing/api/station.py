@@ -141,11 +141,15 @@ class BusStationView(views.APIView):
 class GetBusStationIdView(views.APIView):
     def get(self, request):
         name = request.query_params.get('name')
+        bus_number = request.query_params.get('bus_number')
         if not name:
             return Response({"status" : 400, 'message': 'param name is required'})
+        if not bus_number:
+            return Response({"status" : 400, 'message': 'param bus_number is required'})
         try:
-            bus_station = BusStation.objects.get(name=name)
-            return Response({"status" : 200, 'bus_station_id': bus_station.bus_station_id})
+            bus_station = BusStation.objects.filter(name=name, bus_number=bus_number).first()
+            bus_station_serializer = BusStationSerializer(bus_station)
+            return Response({"status" : 200, 'bus_station': bus_station_serializer.data})
         except:
             return Response({"status" : 400, 'message': 'bus station not found'})
 class GetStationByBusNumber(views.APIView):
@@ -154,5 +158,26 @@ class GetStationByBusNumber(views.APIView):
         if not bus_number:
             return Response({"status" : 400, 'message': 'param bus_number is required'})
         bus_station = BusStation.objects.filter(bus_number=bus_number)
+        serializer = BusStationSerializer(bus_station, many=True)
+        return Response({"status" : 200, 'data': serializer.data})
+    
+class GetBusStationByNameView(views.APIView):
+    def get(self, request):
+        name = request.query_params.get('name')
+        if not name:
+            return Response({"status" : 400, 'message': 'param name is required'})
+        bus_station = BusStation.objects.filter(name=name)
+        serializer = BusStationSerializer(bus_station, many=True)
+        return Response({"status" : 200, 'data': serializer.data})
+    
+class GetBusStationByBusNumberView(views.APIView):
+    def get(self, request):
+        bus_number = request.query_params.get('bus_number')
+        direction = request.query_params.get('direction')
+        if not bus_number:
+            return Response({"status" : 400, 'message': 'param bus_number is required'})
+        if not direction:
+            return Response({"status" : 400, 'message': 'param direction is required'})
+        bus_station = BusStation.objects.filter(bus_number=bus_number, direction=direction)
         serializer = BusStationSerializer(bus_station, many=True)
         return Response({"status" : 200, 'data': serializer.data})
