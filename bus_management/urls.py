@@ -7,7 +7,7 @@ from bus_routing.api.hello import BusStationHelloView
 from bus_routing.api.mail import RequestOTPView, VerifyOTPView
 from bus_routing.api.passenger import PassengerDataView
 from bus_routing.api.payment import BuyTicketView, DepositView
-from bus_routing.api.station import BusStationView, GetBusStationByBusNumberView, GetBusStationByNameView, GetBusStationIdView, GetOffBusView, GetOnBusView, GetStationByBusNumber
+from bus_routing.api.station import BusStationView, GetBusStationByBusNumberView, GetBusStationByNameView, GetBusStationIdView, GetOffBusView, GetOnBusView, GetStationByBusNumber, GetUpcomingBusInfomationView
 from bus_routing.api.ticket import CheckTicketView, GetUserTicket
 from bus_routing.api.users import UserDetailView
 
@@ -23,6 +23,7 @@ urlpatterns = [
     path('get_all_bus_station', BusStationView.as_view()),
     path('get_bus_station_by_name', GetBusStationByNameView.as_view()),
     path('get_bus_station_by_bus_number', GetBusStationByBusNumberView.as_view()),
+    path('get_upcoming_bus_information', GetUpcomingBusInfomationView.as_view()),
 
     # path('add_bus_information', BusView.as_view()),
     path('get_bus_id', GetBusIdView.as_view()),

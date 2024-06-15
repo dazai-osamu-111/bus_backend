@@ -7,6 +7,8 @@ class BusStation(models.Model):
     bus_number = models.CharField(max_length=255, null=True, blank=True)
     latitude = models.FloatField(null=True, blank=True)
     longitude = models.FloatField(null=True, blank=True)
+    bus_number_list_go = models.CharField(max_length=255, null=True, blank=True)
+    bus_number_list_return = models.CharField(max_length=255, null=True, blank=True)
     direction = models.IntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

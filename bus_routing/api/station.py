@@ -1,7 +1,7 @@
 
-import datetime
-import re
-from shutil import move
+from datetime import datetime
+
+import googlemaps
 from rest_framework.response import Response
 
 from rest_framework import views
@@ -181,3 +181,66 @@ class GetBusStationByBusNumberView(views.APIView):
         bus_station = BusStation.objects.filter(bus_number=bus_number, direction=direction)
         serializer = BusStationSerializer(bus_station, many=True)
         return Response({"status" : 200, 'data': serializer.data})
+    
+
+# API key của Google Maps
+GOOGLE_MAPS_API_KEY = 'AIzaSyAnI_7dbzhe2FS7kr1lXvqXId2AIBvUXB8'
+
+# Hàm kết nối tới Google Maps API
+def get_gmaps_client(api_key):
+    return googlemaps.Client(key=api_key)
+
+class GetUpcomingBusInfomationView(views.APIView):
+    def get(self, request):
+        bus_station_name = request.query_params.get('bus_station_name')
+        if not bus_station_name:
+            return Response({"status": 400, 'message': 'param bus_station_name is required'})
+        
+        bus_station = BusStation.objects.filter(name=bus_station_name).first()
+        if not bus_station:
+            return Response({"status": 404, 'message': 'Bus station not found'})
+        
+        bus_longitude = bus_station.longitude
+        bus_latitude = bus_station.latitude
+        
+        # Tách các giá trị từ bus_number_list_go và bus_number_list_return
+        bus_number_list_go = bus_station.bus_number_list_go.split(",") if bus_station.bus_number_list_go else []
+        bus_number_list_return = bus_station.bus_number_list_return.split(",") if bus_station.bus_number_list_return else []
+        
+        # Gộp lại và loại bỏ giá trị trùng lặp
+        bus_number_of_bus_station = list(set(bus_number_list_go + bus_number_list_return))
+
+        upcoming_buses_info = []
+
+        gmaps = get_gmaps_client(GOOGLE_MAPS_API_KEY)
+
+        for bus_number in bus_number_of_bus_station:
+            bus_list = Bus.objects.filter(bus_number=bus_number)
+            for bus in bus_list:
+                result = gmaps.distance_matrix(
+                    origins=f"{bus.current_latitude},{bus.current_longitude}",
+                    destinations=f"{bus_latitude},{bus_longitude}",
+                    mode="driving",
+                    departure_time=datetime.now()
+                )
+
+                if result['rows'][0]['elements'][0]['status'] == 'OK':
+                    distance = result['rows'][0]['elements'][0]['distance']['value'] / 1000  # chuyển đổi sang km
+                    duration = result['rows'][0]['elements'][0]['duration']['value'] / 60  # chuyển đổi sang phút
+
+                    if distance < 5 and duration < 40:
+                        bus_info = {
+                            "bus_number": bus.bus_number,
+                            "driver_name": bus.driver_name,
+                            "current_passenger_amount": bus.current_passenger_amount,
+                            "max_passenger_amount": bus.max_passenger_amount,
+                            "speed": bus.speed,
+                            "distance_to_station": distance,
+                            "time_to_station": duration,
+                            "current_latitude": bus.current_latitude,
+                            "current_longitude": bus.current_longitude
+                        }
+                        upcoming_buses_info.append(bus_info)
+
+        # Trả về kết quả
+        return Response({"status": 200, 'upcoming_buses': upcoming_buses_info})
