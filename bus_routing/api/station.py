@@ -242,5 +242,8 @@ class GetUpcomingBusInfomationView(views.APIView):
                         }
                         upcoming_buses_info.append(bus_info)
 
+        # Sắp xếp danh sách theo thời gian sẽ tới điểm dừng
+        upcoming_buses_info.sort(key=lambda x: x['time_to_station'])
+
         # Trả về kết quả
         return Response({"status": 200, 'upcoming_buses': upcoming_buses_info})
