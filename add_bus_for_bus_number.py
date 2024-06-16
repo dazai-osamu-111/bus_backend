@@ -33,14 +33,14 @@ try:
         print("Đã kết nối tới cơ sở dữ liệu")
         
         # Lấy dữ liệu từ bảng BusStation
-        cursor.execute("select distinct bus_number from bus_routing_busstation")
+        cursor.execute("select distinct bus_number, direction from bus_routing_busstation")
         bus_numbers = cursor.fetchall()
 
         cursor.execute("delete from bus_routing_bus")
 
-        for bus_number in bus_numbers:
+        for bus_number, direction in bus_numbers:
 
-            cursor.execute("SELECT latitude, longitude FROM bus_routing_busstation where bus_number=%s ORDER BY bus_station_id", bus_number)
+            cursor.execute("SELECT latitude, longitude FROM bus_routing_busstation where bus_number=%s and direction=%s ORDER BY bus_station_id", (bus_number, direction))
             bus_stations = cursor.fetchall()
 
             # Tạo dữ liệu cho bảng Bus
@@ -58,10 +58,10 @@ try:
                 
                 insert_bus_query = """
                 INSERT INTO bus_routing_bus 
-                (bus_number, driver_name, current_longitude, current_latitude, current_passenger_amount, max_passenger_amount, speed, created_at, updated_at)
-                VALUES (%s, %s, %s, %s, %s, %s, %s, NOW(), NOW())
+                (bus_number, driver_name, current_longitude, current_latitude, current_passenger_amount, max_passenger_amount, speed, direction, created_at, updated_at)
+                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, NOW(), NOW())
                 """
-                cursor.execute(insert_bus_query, (bus_number, driver_name, longitude, latitude, current_passenger_amount, max_passenger_amount, speed))
+                cursor.execute(insert_bus_query, (bus_number, driver_name, longitude, latitude, current_passenger_amount, max_passenger_amount, speed, direction))
 
             # Xác nhận các thay đổi
         connection.commit()

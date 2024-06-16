@@ -1,4 +1,5 @@
 from django.db import models
+from numpy import poly
 
 # create bus station model
 class BusStation(models.Model):
@@ -47,7 +48,8 @@ class Bus(models.Model):
 
 class BusRouting(models.Model):
     bus_number = models.CharField(max_length=255, null=True, blank=True)
-    bus_station_id = models.IntegerField(default=0)
+    direction = models.IntegerField(default=0)
+    polyline = models.TextField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     
@@ -84,3 +86,4 @@ class MovementHistory(models.Model):
     off_bus_at = models.DateTimeField(null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+

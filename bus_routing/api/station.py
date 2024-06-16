@@ -232,6 +232,7 @@ class GetUpcomingBusInfomationView(views.APIView):
                         bus_info = {
                             "bus_number": bus.bus_number,
                             "driver_name": bus.driver_name,
+                            "direction": bus.direction,
                             "current_passenger_amount": bus.current_passenger_amount,
                             "max_passenger_amount": bus.max_passenger_amount,
                             "speed": bus.speed,
