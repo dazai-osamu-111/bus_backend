@@ -41,6 +41,7 @@ class Bus(models.Model):
     speed = models.FloatField(default=20)
     current_longitude = models.FloatField(null=True, blank=True)
     current_latitude = models.FloatField(null=True, blank=True)
+    direction = models.IntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Drawing Manager at Đại học Bách Khoa Hà Nội</title>
+    <script
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAnI_7dbzhe2FS7kr1lXvqXId2AIBvUXB8&libraries=drawing,geometry&callback=initMap"
+      async
+      defer
+    ></script>
+    <script>
+      let map;
+      let drawingManager;
+      let polyline;
+
+      function initMap() {
+        // Vị trí Đại học Bách Khoa Hà Nội
+        const bachKhoaHaNoi = { lat: 21.006382, lng: 105.842163 };
+
+        map = new google.maps.Map(document.getElementById("map"), {
+          zoom: 16, // Zoom vào vị trí Đại học Bách Khoa Hà Nội
+          center: bachKhoaHaNoi,
+        });
+
+        drawingManager = new google.maps.drawing.DrawingManager({
+          drawingMode: google.maps.drawing.OverlayType.POLYLINE,
+          drawingControl: true,
+          drawingControlOptions: {
+            position: google.maps.ControlPosition.TOP_CENTER,
+            drawingModes: ["polyline"],
+          },
+          polylineOptions: {
+            strokeColor: "#FF0000",
+            strokeOpacity: 1.0,
+            strokeWeight: 2,
+          },
+        });
+
+        drawingManager.setMap(map);
+
+        google.maps.event.addListener(
+          drawingManager,
+          "polylinecomplete",
+          function (event) {
+            polyline = event;
+            console.log("Polyline path:", getPolylinePath(polyline));
+          }
+        );
+      }
+
+      function getPolylinePath(polyline) {
+        const path = polyline.getPath();
+        const pathArray = [];
+
+        for (let i = 0; i < path.getLength(); i++) {
+          const point = path.getAt(i);
+          pathArray.push({ lat: point.lat(), lng: point.lng() });
+        }
+
+        return pathArray;
+      }
+
+      function encodePolyline() {
+        if (!polyline) {
+          alert("Please draw a polyline first.");
+          return;
+        }
+        const path = polyline.getPath().getArray();
+        const encodedPath = google.maps.geometry.encoding.encodePath(path);
+        console.log("Encoded Path:", encodedPath);
+      }
+
+      function decodePolyline(encodedPath) {
+        if (!encodedPath) {
+          alert("Please provide an encoded polyline.");
+          return;
+        }
+        const decodedPath =
+          google.maps.geometry.encoding.decodePath(encodedPath);
+        if (polyline) {
+          polyline.setPath(decodedPath);
+        } else {
+          polyline = new google.maps.Polyline({
+            path: decodedPath,
+            geodesic: true,
+            strokeColor: "#FF0000",
+            strokeOpacity: 1.0,
+            strokeWeight: 2,
+          });
+          polyline.setMap(map);
+        }
+      }
+    </script>
+    <style>
+      /* Đảm bảo bản đồ hiển thị đúng cách */
+      #map {
+        height: 100vh;
+        width: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="map"></div>
+    <button onclick="encodePolyline()">Encode Polyline</button>
+    <button onclick="decodePolyline(prompt('Enter encoded polyline:'))">
+      Decode Polyline
+    </button>
+  </body>
+</html>
