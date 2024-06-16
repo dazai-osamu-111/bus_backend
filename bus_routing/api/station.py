@@ -247,3 +247,13 @@ class GetUpcomingBusInfomationView(views.APIView):
 
         # Trả về kết quả
         return Response({"status": 200, 'upcoming_buses': upcoming_buses_info})
+    
+class FindBusStationByNameView(views.APIView):
+    def get(self, request):
+        name = request.query_params.get('name')
+        if not name:
+            return Response({"status": 400, 'message': 'param name is required'})
+        
+        bus_station = BusStation.objects.filter(name__icontains=name)
+        serializer = BusStationSerializer(bus_station, many=True)
+        return Response({"status": 200, 'data': serializer.data})
