@@ -238,6 +238,7 @@ class GetUpcomingBusInfomationView(views.APIView):
                             "speed": bus.speed,
                             "distance_to_station": distance,
                             "time_to_station": duration,
+                            "bus_number_name": bus.bus_number_name,
                             "current_latitude": bus.current_latitude,
                             "current_longitude": bus.current_longitude
                         }

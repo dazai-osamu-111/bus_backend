@@ -5,6 +5,7 @@ class BusStation(models.Model):
     bus_station_id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=255)
     bus_number = models.CharField(max_length=255, null=True, blank=True)
+    bus_number_name = models.CharField(max_length=255, null=True, blank=True, default="")
     latitude = models.FloatField(null=True, blank=True)
     longitude = models.FloatField(null=True, blank=True)
     bus_number_list_go = models.CharField(max_length=255, null=True, blank=True)
@@ -35,6 +36,7 @@ class User(models.Model):
 class Bus(models.Model):
     bus_id = models.AutoField(primary_key=True)
     bus_number = models.CharField(max_length=255)
+    bus_number_name = models.CharField(max_length=255, null=True, blank=True, default="")
     driver_name = models.CharField(max_length=255) # bien so xe
     current_passenger_amount = models.IntegerField(default=0)
     max_passenger_amount = models.IntegerField(default=20)
