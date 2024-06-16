@@ -1,5 +1,4 @@
 from django.db import models
-from numpy import poly
 
 # create bus station model
 class BusStation(models.Model):
