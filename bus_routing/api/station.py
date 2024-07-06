@@ -6,8 +6,8 @@ from rest_framework.response import Response
 
 from rest_framework import views
 
-from bus_routing.models import Bus, BusStation, MovementHistory, OnBusData, Ticket, TicketStation
-from bus_routing.serializer import BusStationSerializer, MovementHistorySerializer, OnBusDataSerializer
+from bus_routing.models import Bus, BusStation, OnBusData, Ticket
+from bus_routing.serializer import BusStationSerializer, OnBusDataSerializer
 
 class GetOnBusView(views.APIView):
     def post(self, request):
@@ -24,43 +24,11 @@ class GetOnBusView(views.APIView):
         bus = Bus.objects.get(bus_id=bus_id)
         bus.current_passenger_amount += 1
         bus.save()
-
-        bus_number = bus.bus_number
-        ticket_station = TicketStation.objects.filter(ticket_id=ticket_id, bus_number=bus_number).first()
-        if not ticket_station:
-            return Response(status=400,data= {"status" : 400, 'message': 'this ticket is not valid'})
-        start_bus_station_id = ticket_station.on_bus_station_id
-        end_bus_station_id = ticket_station.off_bus_station_id
+        return Response(status=200,data= {"status" : 200, 'message': 'Get on bus successfully'})
 
 
-        data = {
-            'ticket_id': ticket_id,
-            'end_bus_station_id': end_bus_station_id,
-            'start_bus_station_id': start_bus_station_id
-        }
-        movement_history_data = {
-            'ticket_id': ticket_id,
-            'bus_id': Ticket.objects.get(ticket_id=ticket_id).bus_id,
-            'user_id': Ticket.objects.get(ticket_id=ticket_id).user_id,
-            'on_bus_at': datetime.datetime.now()
-        }
-        serializer = OnBusDataSerializer(data=data)
-        if serializer.is_valid():
-            serializer.save()
-            
-            movement_history = MovementHistory.objects.filter(ticket_id=ticket_id, bus_id=bus_id)
-            if not movement_history:
-                movement_history_serializer = MovementHistorySerializer(data=movement_history_data)
-                if movement_history_serializer.is_valid():
-                    movement_history_serializer.save()
-                else:
-                    print(movement_history_serializer.errors)
-                    return Response(status=400,data= {"status" : 400, 'message': 'Get on bus failed'})
-            
-            return Response(status=200,data= {"status" : 200, 'message': 'Get on bus successfully'})
-        else:
-            print(serializer.errors)
-            return Response(status=400,data= {"status" : 400, 'message': 'Get on bus failed'})
+
+        
         
 class GetOffBusView(views.APIView):
     def post(self, request):
@@ -207,15 +175,42 @@ class GetUpcomingBusInfomationView(views.APIView):
         bus_number_list_go = bus_station.bus_number_list_go.split(",") if bus_station.bus_number_list_go else []
         bus_number_list_return = bus_station.bus_number_list_return.split(",") if bus_station.bus_number_list_return else []
         
-        # Gộp lại và loại bỏ giá trị trùng lặp
-        bus_number_of_bus_station = list(set(bus_number_list_go + bus_number_list_return))
 
         upcoming_buses_info = []
 
         gmaps = get_gmaps_client(GOOGLE_MAPS_API_KEY)
 
-        for bus_number in bus_number_of_bus_station:
-            bus_list = Bus.objects.filter(bus_number=bus_number)
+        for bus_number in bus_number_list_go:
+            bus_list = Bus.objects.filter(bus_number=bus_number, direction=0)
+            for bus in bus_list:
+                result = gmaps.distance_matrix(
+                    origins=f"{bus.current_latitude},{bus.current_longitude}",
+                    destinations=f"{bus_latitude},{bus_longitude}",
+                    mode="driving",
+                    departure_time=datetime.now()
+                )
+
+                if result['rows'][0]['elements'][0]['status'] == 'OK':
+                    distance = result['rows'][0]['elements'][0]['distance']['value'] / 1000  # chuyển đổi sang km
+                    duration = result['rows'][0]['elements'][0]['duration']['value'] / 60  # chuyển đổi sang phút
+
+                    if distance < 5 and duration < 40:
+                        bus_info = {
+                            "bus_number": bus.bus_number,
+                            "driver_name": bus.driver_name,
+                            "direction": bus.direction,
+                            "current_passenger_amount": bus.current_passenger_amount,
+                            "max_passenger_amount": bus.max_passenger_amount,
+                            "speed": bus.speed,
+                            "distance_to_station": distance,
+                            "time_to_station": duration,
+                            "bus_number_name": bus.bus_number_name,
+                            "current_latitude": bus.current_latitude,
+                            "current_longitude": bus.current_longitude
+                        }
+                        upcoming_buses_info.append(bus_info)
+        for bus_number in bus_number_list_return:
+            bus_list = Bus.objects.filter(bus_number=bus_number, direction=1)
             for bus in bus_list:
                 result = gmaps.distance_matrix(
                     origins=f"{bus.current_latitude},{bus.current_longitude}",

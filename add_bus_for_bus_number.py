@@ -1,3 +1,4 @@
+from tracemalloc import start
 import pymysql
 import random
 import string
@@ -7,7 +8,7 @@ db_config = {
     'user': 'root',
     'password': 'uxg',
     'host': 'localhost',
-    'database': 'busrouting'
+    'database': 'bus_routing'
 }
 
 # Hàm tạo biển số xe ngẫu nhiên
@@ -36,10 +37,15 @@ try:
         cursor.execute("select distinct bus_number, direction from bus_routing_busstation")
         bus_numbers = cursor.fetchall()
 
+
         cursor.execute("delete from bus_routing_bus")
 
         for bus_number, direction in bus_numbers:
-
+            cursor.execute("select name from bus_routing_busstation where bus_number=%s and direction=%s", (bus_number, direction))
+            bus_station_names = cursor.fetchall()
+            start_bus_station_name = bus_station_names[0][0].split(',')[0]
+            end_bus_station_name = bus_station_names[-1][0].split(',')[0]
+            bus_number_name = f"{start_bus_station_name} - {end_bus_station_name}"
             cursor.execute("SELECT latitude, longitude FROM bus_routing_busstation where bus_number=%s and direction=%s ORDER BY bus_station_id", (bus_number, direction))
             bus_stations = cursor.fetchall()
 
@@ -54,14 +60,18 @@ try:
                 
                 current_passenger_amount = random.randint(0, 20)  # Giả sử số lượng hành khách hiện tại ngẫu nhiên từ 0 đến 20
                 max_passenger_amount = 20  # Giả sử số lượng hành khách tối đa là 20
-                speed = random.uniform(10, 50)  # Giả sử tốc độ ngẫu nhiên từ 10 đến 50 km/h
+                speed = random.uniform(5, 20)  # Giả sử tốc độ ngẫu nhiên từ 10 đến 50 km/h
                 
                 insert_bus_query = """
                 INSERT INTO bus_routing_bus 
-                (bus_number, driver_name, current_longitude, current_latitude, current_passenger_amount, max_passenger_amount, speed, direction, created_at, updated_at)
-                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, NOW(), NOW())
+                (bus_number, driver_name, current_longitude, current_latitude, 
+                current_passenger_amount, max_passenger_amount, speed, direction, 
+                bus_number_name, created_at, updated_at)
+                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, NOW(), NOW())
                 """
-                cursor.execute(insert_bus_query, (bus_number, driver_name, longitude, latitude, current_passenger_amount, max_passenger_amount, speed, direction))
+                cursor.execute(insert_bus_query, (bus_number, driver_name, longitude, latitude, 
+                                                  current_passenger_amount, max_passenger_amount, 
+                                                  speed, direction, bus_number_name))
 
             # Xác nhận các thay đổi
         connection.commit()

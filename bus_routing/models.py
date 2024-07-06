@@ -1,4 +1,5 @@
 from django.db import models
+from numpy import poly
 
 # create bus station model
 class BusStation(models.Model):
@@ -10,7 +11,9 @@ class BusStation(models.Model):
     longitude = models.FloatField(null=True, blank=True)
     bus_number_list_go = models.CharField(max_length=255, null=True, blank=True)
     bus_number_list_return = models.CharField(max_length=255, null=True, blank=True)
+    polyline_url = models.CharField(max_length=1000, null=True, blank=True)
     direction = models.IntegerField(default=0)
+    price = models.FloatField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -20,8 +23,6 @@ class Deposit(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    def __str__(self):
-        return self.amount
 class User(models.Model):
     user_id = models.AutoField(primary_key=True)
     username = models.CharField(max_length=255)
@@ -63,28 +64,19 @@ class OnBusData(models.Model):
 class Ticket(models.Model):
     ticket_id = models.AutoField(primary_key=True)
     user_id = models.IntegerField()
-    bus_number = models.CharField(max_length=255)
-    bus_id = models.IntegerField(null=True)
-    status = models.IntegerField() # 0: chua su dung, 1: dang su dung, 3: đã su dung, 4 da het han
+    status = models.IntegerField() # 0: chua su dung, 2: đã su dung.
+    ticket_type = models.IntegerField() # 0:ve ngay, 1: ve thang
     price = models.FloatField()
+    bus_number = models.CharField(max_length=255, null=True, blank=True)
     valid_to = models.DateTimeField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-class TicketStation(models.Model):
-    ticket_id = models.IntegerField()
-    bus_number = models.CharField(max_length=255)
-    on_bus_station_id = models.IntegerField()
-    off_bus_station_id = models.IntegerField()
+class feedback(models.Model):
+    user_id = models.IntegerField()
+    content = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-class MovementHistory(models.Model):
-    ticket_id = models.IntegerField(null=True)
-    bus_id = models.IntegerField()
-    user_id = models.IntegerField()
-    on_bus_at = models.DateTimeField(null=True)
-    off_bus_at = models.DateTimeField(null=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+
 

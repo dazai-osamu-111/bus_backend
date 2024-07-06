@@ -25,26 +25,18 @@ class BusView(views.APIView):
 
     def put(self, request):
         data = request.data
-        bus_number = data.get('bus_number')
-        driver_name = data.get('driver_name')
+        bus_id = data.get('bus_id')
         speed = data.get('speed', 20)
         current_longitude = data.get('current_longitude', None)
         current_latitude = data.get('current_latitude', None)
 
-        if not bus_number or not driver_name or not speed:
+        if not bus_id or not speed:
             return Response({"status" : 400, 'message': 'bus_number, driver_name, speed are required'})
         try:
-            bus = Bus.objects.get(bus_number=bus_number, driver_name=driver_name)
-            bus_id = bus.bus_id
-            on_bus_data = OnBusData.objects.filter(bus_id=bus_id)
-            current_passenger_amount = 0
-            if on_bus_data:
-                current_passenger_amount = len(on_bus_data)
+            bus = Bus.objects.get(bus_id=bus_id)
+
             data = {
-                'bus_number': bus_number,
-                'driver_name': driver_name,
                 'speed': speed,
-                'current_passenger_amount': current_passenger_amount,
                 'current_longitude': current_longitude,
                 'current_latitude': current_latitude,
             }
@@ -56,30 +48,25 @@ class BusView(views.APIView):
                 return Response({"status" : 400, 'message': 'Update bus failed'})
         except:
             return Response({"status" : 400, 'message': 'Bus not found'})
-    def post(self, request):
-        data = request.data
-        bus_number = data.get('bus_number')
-        driver_name = data.get('driver_name')
-        if not bus_number or not driver_name:
-            return Response({"status" : 400, 'message': 'bus_number'})
-        current_bus_number_amount = len(list(Bus.objects.filter(bus_number=bus_number)))
-        if current_bus_number_amount > 5:
-            return Response({"status" : 400, 'message': 'bus_number amount is over quota'})
-        try:
-            bus = Bus.objects.get(bus_number=bus_number, driver_name=driver_name)
-            return Response({"status" : 400, 'message': 'Bus is existed'})
-        except: 
-            data = {
-                'bus_number': bus_number,
-                'driver_name': driver_name,
-            }
-            serializer = BusSerializer(data=data)
-            if serializer.is_valid():
-                serializer.save()
-                return Response({"status" : 200, 'message': 'Add bus successfully'})
-            else:
-                return Response({"status" : 400, 'message': 'Add bus failed'})
             
+class UpdateCurrentPassengerAmountView(views.APIView):
+    def put(self, request):
+        data = request.data
+        bus_id = data.get('bus_id')
+        type_update = data.get('type_update', None)
+        get_off_amount = data.get('get_off_amount')
+        if not bus_id or not get_off_amount:
+            return Response({"status" : 400, 'message': 'bus_id, current_passenger_amount are required'})
+        try:
+            bus = Bus.objects.get(bus_id=bus_id)
+            if type_update is not None:
+                bus.current_passenger_amount = 0
+            else:
+                bus.current_passenger_amount -= get_off_amount
+            bus.save()
+            return Response({"status" : 200, 'message': 'Update current_passenger_amount successfully'})
+        except:
+            return Response({"status" : 400, 'message': 'Bus not found'})
 class GetBusIdView(views.APIView):
     def get(self, request):
         bus_number = request.query_params.get('bus_number')
@@ -127,9 +114,11 @@ class GetBusInfomationByIdView(views.APIView):
                 'bus_number': bus.bus_number,
                 'driver_name': bus.driver_name,
                 'speed': bus.speed,
-                'current_position': bus.current_position,
+                'current_longitude': bus.current_longitude,
+                'current_latitude': bus.current_latitude,
                 'current_passenger_amount': bus.current_passenger_amount,
                 'max_passenger_amount': bus.max_passenger_amount,
+                "bus_number_name": bus.bus_number_name,
                 'status': 200,
             })
         except:

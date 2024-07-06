@@ -5,7 +5,7 @@ db_config = {
     'user': 'root',
     'password': 'uxg',
     'host': 'localhost',
-    'database': 'busrouting'
+    'database': 'bus_routing'
 }
 
 def create_bus_number_list():

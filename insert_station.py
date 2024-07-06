@@ -11,14 +11,15 @@ db_config = {
     'user': 'root',
     'password': 'uxg',
     'host': 'localhost',
-    'database': 'busrouting'
+    'database': 'bus_routing'
 }
 
 # Danh sách địa điểm
 
 # xe 01
 # locations = [
-#     "BX Gia Lâm", "549 Nguyễn Văn Cừ", "Trường THPT Nguyễn Gia Thiều", 
+#     "Bến xe Gia Lâm, Xe buýt 03, 22, 34 vào- ra xe Gia Lâm Bến, Long Biên, Hà Nội, Việt Nam", 
+#     "549 Nguyễn Văn Cừ", "Trường THPT Nguyễn Gia Thiều", 
 #     "E3.1 Điểm trung chuyển Long Biên", "50 Hàng Cót", "28 Đường Thành", 
 #     "Bệnh viện Phụ sản TW", "Bệnh viện Phụ sản Trung ương", 
 #     "Tổng Công Ty Đường Sắt Việt Nam - 116 Lê Duẩn", "Ga Hà Nội", "78-80A Khâm Thiên", 
@@ -31,11 +32,11 @@ db_config = {
 #     "80 Quang Trung", "Nhà thi đấu Hà Đông", "350 - 352 Quang Trung", 
 #     "Giữa số 428 - 430 Quang Trung", "530 - 532 Quang Trung", 
 #     "678 - 680 Quang Trung", "Nissan Hà Đông", "Đối diện Trường TH Kinh tế Hà Tây", 
-#     "BX Yên Nghĩa"
+#     "Bến Xe Yên Nghĩa, QL6, Phú Lâm, Hà Đông, Hà Nội, Việt Nam"
 # ]
 
 # locations = [
-#     "BX Yên Nghĩa",
+#     "Bến Xe Yên Nghĩa, QL6, Phú Lâm, Hà Đông, Hà Nội, Việt Nam",
 #     "Trường Trung Cấp Kinh Tế - Tài Chính Hà Nội",
 #     "Đối diện Nissan Hà Đông",
 #     "807 Quang Trung",
@@ -72,12 +73,12 @@ db_config = {
 #     "Tổng cục Hải Quan - 162 Nguyễn Văn Cừ (cột trước)",
 #     "358 Nguyễn Văn Cừ",
 #     "Đối diện 447 Ngọc Lâm",
-#     "BX Gia Lâm"
+#     "Bến xe Gia Lâm, Xe buýt 03, 22, 34 vào- ra xe Gia Lâm Bến, Long Biên, Hà Nội, Việt Nam"
 # ]
 
 
 # locations = [
-#     "Bãi Đỗ Xe Buýt Trần Khánh Dư",
+#     "Bãi Đỗ Xe Buýt Trần Khánh Dư, 15C Trần Khánh Dư, Phan Chu Trinh, Hoàn Kiếm, Hà Nội, Việt Nam",
 #     "Trạm Trung Chuyển Xe Buýt Trần Khánh Dư (Khu Đón Khách)",
 #     "Đối diện Bệnh Viện Trung ương Quân đội 108 - Trần Hưng Đạo",
 #     "Đại học Khoa học tự nhiên",
@@ -115,11 +116,11 @@ db_config = {
 #     "678 - 680 Quang Trung",
 #     "Nissan Hà Đông",
 #     "Đối diện Trường TH Kinh tế Hà Tây",
-#     "BX Yên Nghĩa"
+#     "Bến Xe Yên Nghĩa, QL6, Phú Lâm, Hà Đông, Hà Nội, Việt Nam"
 # ]
 
 # locations = [
-#     "BX Yên Nghĩa",
+#     "Bến Xe Yên Nghĩa, QL6, Phú Lâm, Hà Đông, Hà Nội, Việt Nam",
 #     "Trường Trung Cấp Kinh Tế - Tài Chính Hà Nội",
 #     "Đối diện Nissan Hà Đông",
 #     "807 Quang Trung",
@@ -154,12 +155,12 @@ db_config = {
 #     "Trung tâm thương mại Tràng Tiền Plaza",
 #     "16 Hai Bà Trưng",
 #     "Nhà hát Lớn Hà Nội",
-#     "Bãi Đỗ Xe Buýt Trần Khánh Dư"
+#     "Bãi Đỗ Xe Buýt Trần Khánh Dư, 15C Trần Khánh Dư, Phan Chu Trinh, Hoàn Kiếm, Hà Nội, Việt Nam"
 # ]
 
 # Tuyến 04
 # locations = [
-#     "Long Biên - Tuyến 04",
+#     "(A) Long Biên, Nguyễn Trung Trực, Ba Đình, Hà Nội, Việt Nam",
 #     "E3.4 Điểm trung chuyển Long Biên",
 #     "Ngã 4 Nguyễn Hữu Huân - Hàng Mắm",
 #     "Cung thiếu Nhi Hà Nội",
@@ -188,11 +189,11 @@ db_config = {
 #     "Qua đối diện công Ty Cổ Phần Điện Công Nghiệp Hà Nội 30m",
 #     "Tòa nhà Nơ 3 - Trần Thủ Độ",
 #     "Nhà No9 KĐT Pháp Vân",
-#     "BV Nội Tiết TW cơ sở 2 - Tuyến 04"
+#     "Bệnh Viện Nội Tiết TW Cơ Sở 2, Cổ Điển, Tứ Hiệp, Thanh Trì, Hà Nội, Việt Nam"
 # ]
 
 # locations = [
-#     "BV Nội Tiết TW cơ sở 2 - Tuyến 04",
+#     "Bệnh Viện Nội Tiết TW Cơ Sở 2, Cổ Điển, Tứ Hiệp, Thanh Trì, Hà Nội, Việt Nam",
 #     "Đối diện nhà No9 KĐT Pháp Vân",
 #     "Công viên khu đô thị Tứ Hiệp Pháp Vân (đối diện tòa nhà Nơ 3)",
 #     "Công Ty Cổ Phần Điện Công Nghiệp Hà Nội",
@@ -221,14 +222,13 @@ db_config = {
 #     "23 Hàng Tre - Ngã 4 Lò Sũ",
 #     "Hàng Muối - Cầu Chương Dương",
 #     "Điểm trung chuyển Long Biên (điểm E3.3)",
-#     "Long Biên - Tuyến 04"
+#     "(A) Long Biên, Nguyễn Trung Trực, Ba Đình, Hà Nội, Việt Nam"
 # ]
 
-# Tuyến )5
+# Tuyến 05
 
 # locations = [
-#     "KĐT Linh Đàm",
-#     "Nhà NƠ. 1A KĐT Linh Đàm",
+#     "Nhà NƠ. 1A KĐT Linh Đàm - Nguyễn Duy Trinh, Khu đô thị Linh Đàm, Hoàng Liệt, Hoàng Mai, Hà Nội, Việt Nam",
 #     "Đối Diện Trạm Cấp Nước Linh Đàm (Đối Diện Chung Cư HH1C) - Nguyễn Hữu Thọ",
 #     "Công viên Bắc Linh Đàm",
 #     "Cầu Dậu - Khu đô thị Bắc Linh Đàm",
@@ -259,11 +259,11 @@ db_config = {
 #     "Đối diện 51 Đường K1 Cầu Diễn",
 #     "Lối rẽ vào ga Phú Diễn",
 #     "Đối diện cổng làng Phú Diễn",
-#     "Điểm Đỗ Xe Buýt Phú Diễn (Trại Gà)"
+#     "Điểm Đỗ Xe Buýt Phú Diễn (Trại Gà), Cổ Nhuế 2, Bắc Từ Liêm, Hà Nội, Việt Nam"
 # ]
 
 # locations = [
-#     "Điểm Đỗ Xe Buýt Phú Diễn (Trại Gà)",
+#     "Điểm Đỗ Xe Buýt Phú Diễn (Trại Gà), Cổ Nhuế 2, Bắc Từ Liêm, Hà Nội, Việt Nam",
 #     "Cổng làng Phú Diễn",
 #     "Đối diện Ga Phú Diễn",
 #     "Cổng trường ĐH tài nguyên môi trường",
@@ -292,13 +292,13 @@ db_config = {
 #     "Cách cổng BV đa khoa y học cổ truyền 50m",
 #     "Cầu Dậu - Khu đô thị Bắc Linh Đàm",
 #     "Nhà HH2A khu đô thị Linh Đàm",
-#     "KĐT Linh Đàm"
+#     "Nhà NƠ. 1A KĐT Linh Đàm - Nguyễn Duy Trinh, Khu đô thị Linh Đàm, Hoàng Liệt, Hoàng Mai, Hà Nội, Việt Nam",
 # ]
 
 # Tuyến 07
 
 # locations = [
-#     "Cầu Giấy - Tuyến 07",
+#     "(A) Cầu Giấy, Ngọc Khánh, Đống Đa, Hà Nội, Việt Nam",
 #     "Điểm trung chuyển Cầu Giấy - Thủ Lệ 01",
 #     "Số 148-150 Cầu Giấy",
 #     "Đối Diện Trường Cao Đẳng Điện Tử - Điện Lạnh Hà Nội",
@@ -328,11 +328,11 @@ db_config = {
 #     "Qua 50m ngã 3 vào thôn Điền Xá",
 #     "Đối diện nhà ga T2 sân bay Nội Bài",
 #     "Đối diện nhà ga T1 sân bay Nội Bài",
-#     "Nội Bài"
+#     "Sảnh Tầng 1 Nhà Ga T1, Phú Cường, Sóc Sơn, Hà Nội, Việt Nam"
 # ]
 
 # locations = [
-#     "Nội Bài",
+#     "Sảnh Tầng 1 Nhà Ga T1, Phú Cường, Sóc Sơn, Hà Nội, Việt Nam",
 #     "Qua 50m đối diện ngã 3 vào thôn Điền Xá",
 #     "Qua Ngã Tư Cao Tốc TL - Phúc Yên - Km 11+380 Cao Tốc BTL-NB",
 #     "Soát vé cao tốc Bắc Thăng Long",
@@ -359,12 +359,12 @@ db_config = {
 #     "Công viên Nghĩa Đô",
 #     "165 Cầu Giấy",
 #     "Điểm trung chuyển Cầu Giấy - GTVT 01",
-#     "Cầu Giấy - Tuyến 07"
+#     "(A) Cầu Giấy, Ngọc Khánh, Đống Đa, Hà Nội, Việt Nam"
 # ]
 
-
+# Tuyến 11
 # locations = [
-#     "CV Thống Nhất",
+#     "Công Viên Thống Nhất - Trần Nhân Tông, Nguyễn Du, Hai Bà Trưng, Hà Nội, Việt Nam",
 #     "Công viên Thống Nhất",
 #     "55 Quang Trung",
 #     "67 Trần Hưng Đạo",
@@ -390,11 +390,11 @@ db_config = {
 #     "Ngã 3 Ngô Xuân Quảng - Nguyễn Mậu Tài",
 #     "Cửa hàng Xăng dầu số 100 - 234 Ngô Xuân Quảng",
 #     "Số 14 đường Học Viện Nông Nghiệp",
-#     "Học viện Nông Nghiệp Việt Nam"
+#     "Học Viện Nông Nghiệp Việt Nam, Viện Sinh học Nông nghiệp, Trâu Quỳ, Gia Lâm, Hà Nội, Việt Nam"
 # ]
 
 # locations = [
-#     "Học viện Nông Nghiệp Việt Nam",
+#     "Học Viện Nông Nghiệp Việt Nam, Viện Sinh học Nông nghiệp, Trâu Quỳ, Gia Lâm, Hà Nội, Việt Nam",
 #     "Công Ty Tư Vấn Dịch Vụ Khoa Học Nông Nghiệp - Ngô Xuân Quảng",
 #     "Cửa hàng Xăng dầu số 100 - 255 Ngô Xuân Quảng",
 #     "Nhà văn hóa TDP Chính Trung - 139 Ngô Xuân Quảng",
@@ -421,10 +421,12 @@ db_config = {
 #     "KS Melia",
 #     "54 Lý Thường Kiệt",
 #     "Ga Hà Nội",
-#     "CV Thống Nhất"
+#     "Công Viên Thống Nhất - Trần Nhân Tông, Nguyễn Du, Hai Bà Trưng, Hà Nội, Việt Nam"
 # ]
 
+# Tuyến 12
 # locations = [
+#     "(A) CV Nghĩa Đô, Quan Hoa, Cầu Giấy, Hà Nội, Việt Nam",
 #     "Đại học Thủ đô Hà Nội",
 #     "Cầu Dịch Vọng",
 #     "Ngõ 9 - Đào Tấn (Công viên Thủ Lệ)",
@@ -465,11 +467,11 @@ db_config = {
 #     "Qua lối vào Chùa Thanh Dương 100m",
 #     "Đại lý thuốc tân dược thôn Vĩnh Thịnh",
 #     "Cổng làng Vĩnh Trung",
-#     "(B) Khánh Hà"
+#     "(B) Khánh Hà, Khánh Hà, Thường Tín, Hà Nội, Việt Nam"
 # ]
 
 locations = [
-    "(B) Khánh Hà",
+    "(B) Khánh Hà, Khánh Hà, Thường Tín, Hà Nội, Việt Nam",
     "Đối diện cổng làng Vĩnh Trung",
     "Đối diện đại lý thuốc tân dược thôn Vĩnh Thịnh",
     "Đối diện lối vào Chùa Thanh Dương 100m",
@@ -509,7 +511,7 @@ locations = [
     "10 Đào Tấn - Viện Vật lý",
     "Cầu Dịch Vọng",
     "Đại học Thủ đô Hà Nội",
-    "(A) CV Nghĩa Đô"
+    "(A) CV Nghĩa Đô, Quan Hoa, Cầu Giấy, Hà Nội, Việt Nam"
 ]
 
 
@@ -522,22 +524,38 @@ def get_coordinates(address):
         return location['lat'], location['lng']
     return None, None
 
+def location_exists(name, bus_number):
+    conn = pymysql.connect(**db_config)
+    cursor = conn.cursor()
+    query = "SELECT COUNT(*) FROM bus_routing_busstation WHERE name = %s and bus_number = %s"
+    cursor.execute(query, (name,bus_number))
+    result = cursor.fetchone()
+    cursor.close()
+    conn.close()
+    return result[0] > 0
+
 def insert_into_db(name, lat, lng):
     conn = pymysql.connect(**db_config)
     cursor = conn.cursor()
     add_station = ("INSERT INTO bus_routing_busstation "
-                   "(name, latitude, longitude, bus_number, direction, created_at, updated_at) "
-                   "VALUES (%s, %s, %s, %s, %s, %s, %s)")
-    data_station = (name, lat, lng, "12", 1, datetime.now(), datetime.now())
+                   "(name, latitude, longitude, bus_number, direction,price, created_at, updated_at) "
+                   "VALUES (%s, %s, %s, %s, %s, %s, %s, %s)")
+    data_station = (name, lat, lng, "12", 1, 7000, datetime.now(), datetime.now())
     cursor.execute(add_station, data_station)
     conn.commit()
     cursor.close()
     conn.close()
-
+# Danh sách các địa điểm
+i = 0
 for location in locations:
-    lat, lng = get_coordinates(location)
-    if lat and lng:
-        insert_into_db(location, lat, lng)
-        # print(f"Inserted {location} with coordinates ({lat}, {lng})")
+    if not location_exists(location, "12") or i == 0 or i == (len(locations) - 1):
+        lat, lng = get_coordinates(location)
+        if lat and lng:
+            insert_into_db(location, lat, lng)
+            print(f"Inserted {location} with coordinates ({lat}, {lng})")
+        else:
+            print(f"Failed to get coordinates for {location}")
+        i += 1
     else:
-        print(f"Failed to get coordinates for {location}")
+        print(f"{location} already exists in the database.")
+        i += 1
