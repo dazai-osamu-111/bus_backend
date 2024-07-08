@@ -47,7 +47,8 @@ class BusView(views.APIView):
             else:
                 print(serializer.errors)
                 return Response({"status" : 400, 'message': 'Update bus failed'})
-        except:
+        except Exception as e:
+            print(e)
             return Response({"status" : 400, 'message': 'Bus not found'})
             
 class UpdateCurrentPassengerAmountView(views.APIView):
@@ -120,6 +121,7 @@ class GetBusInfomationByIdView(views.APIView):
                 'current_passenger_amount': bus.current_passenger_amount,
                 'max_passenger_amount': bus.max_passenger_amount,
                 "bus_number_name": bus.bus_number_name,
+                'direction': bus.direction,
                 'status': 200,
             })
         except:

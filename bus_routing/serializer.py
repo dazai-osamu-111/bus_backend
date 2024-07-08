@@ -11,7 +11,8 @@ class DepositSerializer(serializers.ModelSerializer):
 class BusSerializer(serializers.ModelSerializer):
     class Meta:
         model = Bus
-        fields = ('bus_number', 'driver_name', 'current_passenger_amount', 'max_passenger_amount', 'speed')
+        fields = ('bus_number', 'driver_name', 'current_passenger_amount', 
+        'max_passenger_amount', 'speed', 'current_longitude', 'current_latitude', 'direction')
 
 class OnBusDataSerializer(serializers.ModelSerializer):
     class Meta:
