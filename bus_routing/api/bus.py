@@ -40,11 +40,12 @@ class BusView(views.APIView):
                 'current_longitude': current_longitude,
                 'current_latitude': current_latitude,
             }
-            serializer = BusSerializer(bus,data=data)
+            serializer = BusSerializer(bus,data=data, partial=True)
             if serializer.is_valid():
                 serializer.save()
                 return Response({"status" : 200, 'message': 'Update bus successfully'})
             else:
+                print(serializer.errors)
                 return Response({"status" : 400, 'message': 'Update bus failed'})
         except:
             return Response({"status" : 400, 'message': 'Bus not found'})
