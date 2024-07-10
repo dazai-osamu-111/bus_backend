@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from bus_routing.models import Bus, BusRouting, BusStation, Deposit,  OnBusData, Ticket, feedback
+from bus_routing.models import Bus, BusRouting, BusStation, Deposit,  OnBusData, OnBusPassengerData, Ticket, feedback
 from django.contrib.auth.models import User
 
 
@@ -40,6 +40,11 @@ class TicketSerializer(serializers.ModelSerializer):
 class EmailSerializer(serializers.Serializer):
     email = serializers.EmailField()
 
+class OnBusPassengerDataSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = OnBusPassengerData
+        fields = ('bus_id', 'bus_number', 'passenger_amount')
+
     
 
 class UserSerializer(serializers.ModelSerializer):
@@ -50,4 +55,4 @@ class UserSerializer(serializers.ModelSerializer):
 class feedbackSerializer(serializers.ModelSerializer):
     class Meta:
         model = feedback
-        fields = ('user_id', 'content')
+        fields = ('user_name', 'content')

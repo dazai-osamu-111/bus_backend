@@ -73,10 +73,16 @@ class Ticket(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
 class feedback(models.Model):
-    user_id = models.IntegerField()
+    user_name = models.CharField(max_length=255)
     content = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+class OnBusPassengerData(models.Model):
+    bus_id = models.IntegerField()
+    bus_number = models.CharField(max_length=255)
+    passenger_amount = models.IntegerField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
 

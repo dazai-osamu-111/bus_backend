@@ -1,11 +1,14 @@
 
+from datetime import date
+import datetime
 from rest_framework.response import Response
 
 
 from rest_framework import views
 
-from bus_routing.models import Bus, OnBusData
-from bus_routing.serializer import BusSerializer
+from bus_routing import serializer
+from bus_routing.models import Bus, OnBusPassengerData
+from bus_routing.serializer import BusSerializer, OnBusPassengerDataSerializer
 
 class BusView(views.APIView):
     def get(self, request):
@@ -140,3 +143,25 @@ class GetBusNumberView(views.APIView):
         result = [{'bus_number': bus_num} for bus_num in bus_numbers]
         
         return Response({'status': 200, 'data': result})
+    
+class UpdatePassengerAmountView(views.APIView):
+    def post(self, request):
+        bus_id = request.query_params.get('bus_id')
+        bus_number = request.query_params.get('bus_number')
+        bus_object = Bus.objects.filter(bus_id=bus_id).first()
+        if not bus_object:
+            return Response({'status': 400, 'message': 'Bus not found'}, status=400)
+        passenger_amount = bus_object.current_passenger_amount
+        on_bus_passenger_data = {
+            'bus_id': bus_id,
+            'bus_number': bus_number,
+            'passenger_amount': passenger_amount
+        }
+
+        serializer = OnBusPassengerDataSerializer(data=on_bus_passenger_data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({'status': 200, 'message': 'Update passenger amount successfully'}, status=200)
+        else:
+            print(serializer.errors)
+            return Response({'status': 400, 'message': 'Update passenger amount failed'}, status=400)

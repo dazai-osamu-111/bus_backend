@@ -22,7 +22,7 @@ class MomoView(APIView):
         amount = request.query_params.get('amount')
         orderId = str(uuid.uuid4())
         requestId = orderId
-        redirectUrl = "example://momo_callback?orderId={orderId}"
+        redirectUrl = "https://webhook.site/b3088a6a-2d17-4f8d-a383-71389a6c600b"
         extraData = ""  # pass empty value or Encode base64 JsonString
         partnerName = "MoMo Payment"
         requestType = "captureWallet"
