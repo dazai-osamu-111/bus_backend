@@ -67,7 +67,7 @@ class GetUserTicket(APIView):
         user_id = request.user.id
         ticket_type = request.query_params.get('ticket_type')
         status = request.query_params.get('status')
-        tickets = Ticket.objects.filter(user_id=user_id, ticket_type=ticket_type, status = status)
+        tickets = Ticket.objects.filter(user_id=user_id, ticket_type=ticket_type)
         if not tickets:
             return Response({'status': 400, 'message': 'Ticket not found'}, status=400)
         serializer = TicketSerializer(tickets, many=True)

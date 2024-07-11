@@ -64,7 +64,7 @@ class UpdateCurrentPassengerAmountView(views.APIView):
             return Response({"status" : 400, 'message': 'bus_id, current_passenger_amount are required'})
         try:
             bus = Bus.objects.get(bus_id=bus_id)
-            if type_update is not None:
+            if type_update == 0:
                 bus.current_passenger_amount = 0
             else:
                 bus.current_passenger_amount -= get_off_amount

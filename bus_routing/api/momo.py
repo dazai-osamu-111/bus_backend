@@ -18,11 +18,11 @@ class MomoView(APIView):
         secretKey = "K951B6PE1waDMi640xX08PD3vg6EkVlz"
         orderInfo = "pay with MoMo"
         partnerCode = "MOMO"
-        ipnUrl = "https://webhook.site/b3088a6a-2d17-4f8d-a383-71389a6c600b"
+        ipnUrl = ""
         amount = request.query_params.get('amount')
         orderId = str(uuid.uuid4())
         requestId = orderId
-        redirectUrl = "https://webhook.site/b3088a6a-2d17-4f8d-a383-71389a6c600b"
+        redirectUrl = "example://momo_callback?orderId=" + orderId
         extraData = ""  # pass empty value or Encode base64 JsonString
         partnerName = "MoMo Payment"
         requestType = "captureWallet"
@@ -31,6 +31,7 @@ class MomoView(APIView):
         autoCapture = True
         lang = "vi"
         orderGroupId = ""
+        system_order_id = orderId
 
         # before sign HMAC SHA256 with format: accessKey=$accessKey&amount=$amount&extraData=$extraData&ipnUrl=$ipnUrl
         # &orderId=$orderId&orderInfo=$orderInfo&partnerCode=$partnerCode&redirectUrl=$redirectUrl&requestId=$requestId
@@ -79,6 +80,7 @@ class MomoView(APIView):
         # f.close()
         print("--------------------JSON response----------------\n")
         print(response.json())
+
         return Response(response.json())
 
 class MomoStatusView(APIView):
