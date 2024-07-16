@@ -21,7 +21,7 @@ class MomoView(APIView):
         amount = request.query_params.get('amount')
         orderId = str(uuid.uuid4())
         requestId = orderId
-        ipnUrl = "example://momo_callback?orderId=" + orderId
+        ipnUrl = "http://ducnt"
         redirectUrl = "example://momo_callback?orderId=" + orderId
         extraData = ""  # pass empty value or Encode base64 JsonString
         partnerName = "MoMo Payment"
