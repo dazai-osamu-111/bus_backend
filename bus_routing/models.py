@@ -86,4 +86,20 @@ class OnBusPassengerData(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
 
-
+class BusPassengerData(models.Model):
+    bus_number = models.CharField(max_length=255)
+    bus_id = models.IntegerField()
+    driver_name = models.CharField(max_length=255)
+    passenger_amount = models.IntegerField()
+    direction = models.IntegerField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+class checkTicketHistory(models.Model):
+    user_id = models.IntegerField()
+    ticket_id = models.IntegerField()
+    bus_id = models.IntegerField()
+    direction = models.IntegerField()
+    bus_number = models.CharField(max_length=255)
+    driver_name = models.CharField(max_length=255)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
